@@ -10,7 +10,7 @@ function GoalInput({ onAddGoal }) {
   };
 
   const addGoalHandler = () => {
-    onAddGoal(textInput);
+    onAddGoal(textInput.trim());
     setTextInput('');
   };
 

@@ -16,6 +16,12 @@ export default function App() {
     ]); // best practice
   };
 
+  const deleteGoalHandler = (id) => {
+    setGoals((currentGoals) => {
+      return currentGoals.filter((item) => item.id !== id);
+    });
+  };
+
   return (
     <View style={styles.appContainer}>
       <GoalInput onAddGoal={addGoalHandler} />
@@ -24,7 +30,12 @@ export default function App() {
         <FlatList
           data={goals}
           renderItem={(itemData) => {
-            return <GoalItem goals={itemData.item} />;
+            return (
+              <GoalItem
+                goals={itemData.item}
+                onDeleteItem={deleteGoalHandler}
+              />
+            );
           }}
           keyExtarctor={(item, index) => {
             // return item.id

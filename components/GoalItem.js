@@ -1,7 +1,13 @@
-import { StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
-function GoalItem({ goals }) {
-  return <Text style={styles.goalItem}>{goals.text}</Text>;
+function GoalItem({ goals, onDeleteItem }) {
+  return (
+    <Pressable onPress={onDeleteItem.bind(this, goals.id)}>
+      {/* bind method - allows you pre-configure a function got future execution */}
+      {/* the second value, the second argument you pass to bind will be the first parameter received by the to-be-called function */}
+      <Text style={styles.goalItem}>{goals.text}</Text>
+    </Pressable>
+  );
 }
 
 export default GoalItem;
