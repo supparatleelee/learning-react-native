@@ -1,31 +1,49 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, FlatList } from 'react-native';
+import GoalInput from './components/GoalInput';
+
+import GoalItem from './components/GoalItem';
 
 export default function App() {
+  const [goals, setGoals] = useState([]);
+
+  const addGoalHandler = (enteredGoalText) => {
+    // setGoals([...goals, textInput]) // this is not the best way to update state that needs the previous state. Hence, the best way to do it is to pass a function (which the function will be called automatically by React)
+    setGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      // textInput
+      { text: enteredGoalText, id: Math.random().toString() },
+    ]); // best practice
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.testText}>
-        Open up App.js to start working on your app!
-      </Text>
-      <Button title="test" />
-      <View style={styles.testText}>
-        <Text>Test 2</Text>
+    <View style={styles.appContainer}>
+      <GoalInput onAddGoal={addGoalHandler} />
+
+      <View style={styles.goalsContainer}>
+        <FlatList
+          data={goals}
+          renderItem={(itemData) => {
+            return <GoalItem goals={itemData.item} />;
+          }}
+          keyExtarctor={(item, index) => {
+            // return item.id
+            return index;
+          }}
+          alwaysBounceVertical={false}
+        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  appContainer: {
+    paddingTop: 60,
+    paddingHorizontal: 15,
+    flex: 1, // === height: '100%'
   },
-  testText: {
-    color: 'red',
-    borderWidth: '1px',
-    borderColor: '#9b9b9b',
-    borderRadius: '25px',
-    padding: 5,
+  goalsContainer: {
+    flex: 12,
   },
 });
